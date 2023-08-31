@@ -1,8 +1,8 @@
-import Login from "./components/Login";
 import "./App.css";
+import Quiz from "./components/Quiz";
 
 const App = () => {
-  return <Login />;
+  return <Quiz />;
 };
 
 export default App;
