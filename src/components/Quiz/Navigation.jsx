@@ -1,7 +1,15 @@
 const Navigation = (props) => {
-  const { allQuestions, setSelectedQuestion } = props;
+  const {
+    allQuestions,
+    setSelectedQuestion,
+    selectedAnswers,
+    visitedQuestion,
+    selectedQuestion,
+    setVisitedQuestion,
+  } = props;
 
   const handleClick = (e, idx) => {
+    setVisitedQuestion([...visitedQuestion, selectedQuestion]);
     setSelectedQuestion(idx);
   };
 
@@ -12,8 +20,13 @@ const Navigation = (props) => {
           return (
             <div
               key={idx}
-              className="w-12 h-12 border border-black rounded-full flex justify-center 
-              items-center bg-white cursor-pointer"
+              className={
+                selectedAnswers.hasOwnProperty(idx)
+                  ? "w-12 h-12 border border-black rounded-full flex justify-center items-center cursor-pointer bg-green-400"
+                  : visitedQuestion.includes(idx)
+                  ? "w-12 h-12 border border-black rounded-full flex justify-center items-center cursor-pointer bg-orange-400"
+                  : "w-12 h-12 border border-black rounded-full flex justify-center items-center bg-white cursor-pointer"
+              }
               onClick={(e) => handleClick(e, idx)}
             >
               {idx + 1}
