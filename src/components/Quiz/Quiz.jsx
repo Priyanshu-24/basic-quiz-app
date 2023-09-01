@@ -3,21 +3,25 @@ import { getAllQuestions } from "../../utils/services";
 import Navigation from "./Navigation";
 import Question from "./Question";
 import Help from "./Help";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { addQuestions } from "../../app/questionsSlice";
 
 const Quiz = () => {
-  const [allQuestions, setAllQuestions] = useState(null);
   const [selectedQuestion, setSelectedQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [visitedQuestion, setVisitedQuestion] = useState([]);
 
+  const dispatch = useDispatch();
+  const allQuestions = useSelector((state) => state.value);
+
   useEffect(() => {
-    getAllQuestions().then((res) => setAllQuestions(res.results));
+    getAllQuestions().then((res) => dispatch(addQuestions(res.results)));
   }, []);
 
   return (
     <div>
       <Navigation
-        allQuestions={allQuestions}
         setSelectedQuestion={setSelectedQuestion}
         selectedAnswers={selectedAnswers}
         visitedQuestion={visitedQuestion}
@@ -28,7 +32,6 @@ const Quiz = () => {
         <Question
           selectedAnswers={selectedAnswers}
           setSelectedAnswers={setSelectedAnswers}
-          allQuestions={allQuestions}
           selectedQuestion={selectedQuestion}
         />
       )}

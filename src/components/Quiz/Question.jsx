@@ -1,17 +1,18 @@
 import { decodeEntities } from "../../utils/helper";
+import { useSelector } from "react-redux";
 
 const Question = (props) => {
-  const {
-    allQuestions,
-    selectedQuestion,
-    selectedAnswers,
-    setSelectedAnswers,
-  } = props;
+  const { selectedQuestion, selectedAnswers, setSelectedAnswers } = props;
 
-  const options = [
-    ...allQuestions[selectedQuestion].incorrect_answers,
-    allQuestions[selectedQuestion].correct_answer,
-  ];
+  const allQuestions = useSelector((state) => state.value);
+
+  const options =
+    allQuestions.length === 0
+      ? null
+      : [
+          ...allQuestions[selectedQuestion].incorrect_answers,
+          allQuestions[selectedQuestion].correct_answer,
+        ];
 
   const onSelectOption = (e, option) => {
     setSelectedAnswers({ ...selectedAnswers, [selectedQuestion]: option });
@@ -23,26 +24,28 @@ const Question = (props) => {
       <div className="font-semibold">Please select the correct option:</div>
       <div className="font-semibold text-lg mt-5">
         <span className="mr-3">{`${selectedQuestion + 1})`}</span>
-        {decodeEntities(allQuestions[selectedQuestion].question)}
+        {allQuestions.length !== 0 &&
+          decodeEntities(allQuestions[selectedQuestion].question)}
       </div>
       <div className="mt-5 ml-7">
-        {options.map((option) => {
-          return (
-            <div
-              key={option}
-              className={
-                selectedAnswers[selectedQuestion] === option
-                  ? `bg-green-400 border border-black my-5 p-2 rounded-lg w-[500px] max-w-full 
+        {options &&
+          options.map((option) => {
+            return (
+              <div
+                key={option}
+                className={
+                  selectedAnswers[selectedQuestion] === option
+                    ? `bg-green-400 border border-black my-5 p-2 rounded-lg w-[500px] max-w-full 
                   cursor-pointer`
-                  : `border border-black my-5 p-2 rounded-lg w-[500px] max-w-full 
+                    : `border border-black my-5 p-2 rounded-lg w-[500px] max-w-full 
               cursor-pointer`
-              }
-              onClick={(e) => onSelectOption(e, option)}
-            >
-              {decodeEntities(option)}
-            </div>
-          );
-        })}
+                }
+                onClick={(e) => onSelectOption(e, option)}
+              >
+                {decodeEntities(option)}
+              </div>
+            );
+          })}
       </div>
     </div>
   );
