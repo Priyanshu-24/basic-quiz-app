@@ -6,35 +6,41 @@ import Help from "./Help";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { addQuestions } from "../../app/questionsSlice";
+import { Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../Navbar";
 
 const Quiz = () => {
+  const naviagte = useNavigate();
   const [selectedQuestion, setSelectedQuestion] = useState(0);
-  const [selectedAnswers, setSelectedAnswers] = useState({});
   const [visitedQuestion, setVisitedQuestion] = useState([]);
 
   const dispatch = useDispatch();
-  const allQuestions = useSelector((state) => state.value);
+  const allQuestions = useSelector((state) => state.value.allQuestions);
 
   useEffect(() => {
     getAllQuestions().then((res) => dispatch(addQuestions(res.results)));
   }, []);
 
+  const onSubmit = () => {
+    naviagte("/result");
+  };
+
   return (
     <div>
+      <Navbar />
       <Navigation
         setSelectedQuestion={setSelectedQuestion}
-        selectedAnswers={selectedAnswers}
         visitedQuestion={visitedQuestion}
         selectedQuestion={selectedQuestion}
         setVisitedQuestion={setVisitedQuestion}
       />
-      {allQuestions && (
-        <Question
-          selectedAnswers={selectedAnswers}
-          setSelectedAnswers={setSelectedAnswers}
-          selectedQuestion={selectedQuestion}
-        />
-      )}
+      {allQuestions && <Question selectedQuestion={selectedQuestion} />}
+      <div className="w-full flex justify-end pr-16 pb-4">
+        <Button variant="contained" onClick={onSubmit}>
+          Submit Quiz
+        </Button>
+      </div>
       <Help />
     </div>
   );

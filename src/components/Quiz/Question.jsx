@@ -1,10 +1,13 @@
 import { decodeEntities } from "../../utils/helper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { addSelectedAnswers } from "../../app/questionsSlice";
 
 const Question = (props) => {
-  const { selectedQuestion, selectedAnswers, setSelectedAnswers } = props;
+  const { selectedQuestion } = props;
 
-  const allQuestions = useSelector((state) => state.value);
+  const allQuestions = useSelector((state) => state.value.allQuestions);
+  const selectedAnswers = useSelector((state) => state.value.selectedAnswers);
+  const dispatch = useDispatch();
 
   const options =
     allQuestions.length === 0
@@ -15,7 +18,7 @@ const Question = (props) => {
         ];
 
   const onSelectOption = (e, option) => {
-    setSelectedAnswers({ ...selectedAnswers, [selectedQuestion]: option });
+    dispatch(addSelectedAnswers({ option, selectedQuestion }));
   };
 
   // decodeEntities will convert html special characters to noraml characters

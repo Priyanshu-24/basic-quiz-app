@@ -3,13 +3,13 @@ import { useSelector } from "react-redux";
 const Navigation = (props) => {
   const {
     setSelectedQuestion,
-    selectedAnswers,
     visitedQuestion,
     selectedQuestion,
     setVisitedQuestion,
   } = props;
 
-  const allQuestions = useSelector((state) => state.value);
+  const allQuestions = useSelector((state) => state.value.allQuestions);
+  const selectedAnswers = useSelector((state) => state.value.selectedAnswers);
 
   const handleClick = (e, idx) => {
     setVisitedQuestion([...visitedQuestion, selectedQuestion]);
