@@ -20,7 +20,7 @@ const Quiz = () => {
 
   useEffect(() => {
     getAllQuestions().then((res) => dispatch(addQuestions(res.results)));
-  }, []);
+  }, [dispatch]);
 
   const onSubmit = () => {
     naviagte("/result");
