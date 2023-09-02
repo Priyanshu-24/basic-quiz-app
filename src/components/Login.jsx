@@ -1,12 +1,16 @@
 import { Button, TextField } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addName } from "../app/questionsSlice";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [error, setError] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const handleSubmit = () => {
     const nameRegex = /^[a-zA-Z ]{2,30}$/;
@@ -20,7 +24,7 @@ const Login = () => {
       setError("Invalid Email!");
       return;
     }
-
+    dispatch(addName(name));
     setError("");
     navigate("/quiz");
   };

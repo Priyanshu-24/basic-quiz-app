@@ -16,6 +16,7 @@ const Help = () => {
           <span className="text-orange-600 font-semibold">orange</span>{" "}
           background in the navigation panel
         </li>
+        <li>- Quiz will be automatically be submitted after 30 minutes</li>
       </ul>
     </div>
   );

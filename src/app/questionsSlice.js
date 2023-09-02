@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { value: { allQuestions: [], selectedAnswers: {} } };
+const initialState = {
+  value: { allQuestions: [], selectedAnswers: {}, name: "" },
+};
 export const questionsSlice = createSlice({
   name: "questions",
   initialState,
@@ -9,14 +11,16 @@ export const questionsSlice = createSlice({
       state.value.allQuestions = [...action.payload];
     },
     addSelectedAnswers: (state, action) => {
-      console.log(state, action);
-      // state.value.selectedAnswers.payload.selectedQuestion = ;
       state.value.selectedAnswers[action.payload.selectedQuestion] =
         action.payload.option;
+    },
+    addName: (state, action) => {
+      state.value.name = action.payload;
     },
   },
 });
 
-export const { addQuestions, addSelectedAnswers } = questionsSlice.actions;
+export const { addQuestions, addSelectedAnswers, addName } =
+  questionsSlice.actions;
 
 export default questionsSlice.reducer;
